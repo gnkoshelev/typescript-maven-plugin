@@ -1,9 +1,11 @@
 # typescript-maven-plugin
-Maven plugin to compile TypeScript sources
+Maven plugin to compile TypeScript sources.
+Plugin supports TypeScript at least version 1.6.2 and older.
 
 ## Requirements
 * Required Node.js to be installed with TypeScript module (npm i -g typescript)
 * Required PATH presence for tsc (check availability by typing **tsc --version**)
+* Required Java 1.6+
 
 ## Usage example
 ```xml
