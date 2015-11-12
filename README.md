@@ -39,3 +39,10 @@ Plugin supports TypeScript at least version 1.6.2 and older.
 * `target` - version of ECMAScript, *default* value is `ES5`
 * `sources` - files to compile, *required*
 * `sourcemap` - add TS-files and JS.MAP-files to targetDirectory, *default* value is `false`
+
+## Installing plugin
+`mvn install:install-file -Dfile=typescript-maven-plugin-0.3.jar`
+
+or build and install from sources:
+
+`mvn install`
