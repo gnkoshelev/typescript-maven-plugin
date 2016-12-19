@@ -1,15 +1,16 @@
 package ru.kgn.typescript.tsc;
 
+import org.apache.maven.plugin.logging.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-//import java.io.IOException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.maven.plugin.logging.Log;
+
+//import java.io.IOException;
 
 /**
  *
@@ -44,20 +45,17 @@ public class TypeScriptCompiler implements ITypeScriptCompiler {
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
         processBuilder.redirectErrorStream(true);
         processBuilder.directory(workingDirectory);
+
+        BufferedReader reader = null;
         try {
             Process process = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                log.info(line);
+            }
             process.waitFor();
             int resultCode = process.exitValue();
-            sb = new StringBuilder();
-            String line = reader.readLine();
-            while (line != null) {
-                sb.append(line);
-                sb.append('\n');
-                line = reader.readLine();
-            }
-            reader.close();
-            log.info(sb.toString());
 
             if (resultCode != 0) {
                 //TODO: Error has been acquired
@@ -73,6 +71,14 @@ public class TypeScriptCompiler implements ITypeScriptCompiler {
             TypeScriptCompilationException exception = new TypeScriptCompilationException(ex);
             exception.setResultCode(-1);
             throw exception;
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    log.warn("Failed to close input stream of subprocess", e);
+                }
+            }
         }
     }
 }
