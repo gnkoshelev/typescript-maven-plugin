@@ -4,7 +4,7 @@
     <groupId>ru.kgn.typescript</groupId>
     <artifactId>typescript-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>0.4</version>
+    <version>0.5.0</version>
     <name>typescript-maven-plugin Maven Mojo</name>
     <url>https://github.com/gnkoshelev/typescript-maven-plugin</url>
 

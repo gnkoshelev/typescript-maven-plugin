@@ -1,13 +1,13 @@
 package ru.kgn.typescript.tsc;
 
 import org.apache.maven.plugin.logging.Log;
+import ru.kgn.typescript.util.OSUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 //import java.io.IOException;
@@ -32,7 +32,12 @@ public class TypeScriptCompiler implements ITypeScriptCompiler {
     
     @Override
     public void compile(List<String> arguments) throws TypeScriptCompilationException {
-        List<String> commands = new ArrayList<String>(Arrays.asList("cmd", "/C", "tsc"));
+        List<String> commands = new ArrayList<String>();
+        if (OSUtil.isWindows()) {
+            commands.add("cmd");
+            commands.add("/C");
+        }
+        commands.add("tsc");
         commands.addAll(arguments);
         StringBuilder sb = new StringBuilder();
         sb.append("Commands: [BEGIN] ");
@@ -58,7 +63,7 @@ public class TypeScriptCompiler implements ITypeScriptCompiler {
             int resultCode = process.exitValue();
 
             if (resultCode != 0) {
-                //TODO: Error has been acquired
+                //Error has been acquired
                 TypeScriptCompilationException exception = new TypeScriptCompilationException("Result Code = " + resultCode);
                 exception.setResultCode(resultCode);
                 throw exception;
