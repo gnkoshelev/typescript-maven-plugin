@@ -1,5 +1,13 @@
 package ru.kgn.typescript;
 
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import ru.kgn.typescript.tsc.ITypeScriptCompiler;
+import ru.kgn.typescript.tsc.TypeScriptCompilationException;
+import ru.kgn.typescript.tsc.TypeScriptCompiler;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,15 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import ru.kgn.typescript.tsc.ITypeScriptCompiler;
-import ru.kgn.typescript.tsc.TypeScriptCompiler;
-import ru.kgn.typescript.tsc.TypeScriptCompilationException;
 
 /**
  * @author Gregory [KGN]
@@ -60,18 +60,18 @@ public class TypeScriptMojo extends AbstractMojo {
             List<String> sourcePaths = new ArrayList<String>(sources.size());
             for(String source : sources) {
                 sourcePaths.add(new File(newSourceDirectory, source).getAbsolutePath());
-
             }
 
             List<String> arguments = new ArrayList<String>();
-            arguments.addAll(Arrays.asList(
-                    "--module",
-                    module,
-                    "--target",
-                    target,
-                    sourcemap ? "--sourcemap" : "",
-                    "--outDir",
-                    targetDirectory.getAbsolutePath()));
+            arguments.add("--module");
+            arguments.add(module);
+            arguments.add("--target");
+            arguments.add(target);
+            if (sourcemap) {
+                arguments.add("--sourcemap");
+            }
+            arguments.add("--outDir");
+            arguments.add(targetDirectory.getAbsolutePath());
             arguments.addAll(sourcePaths);
             tsc.compile(arguments);
         } catch(TypeScriptCompilationException ex) {
