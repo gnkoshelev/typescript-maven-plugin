@@ -1,6 +1,6 @@
 # typescript-maven-plugin
 Maven plugin to compile TypeScript sources.
-Plugin supports TypeScript at least version 1.6.2 and older.
+Plugin supports TypeScript at least version 2.1.4 and older.
 
 ## Requirements
 * Required Node.js to be installed with TypeScript module (npm i -g typescript)
@@ -12,7 +12,7 @@ Plugin supports TypeScript at least version 1.6.2 and older.
 <plugin>
 	<groupId>ru.kgn.typescript</groupId>
 	<artifactId>typescript-maven-plugin</artifactId>
-	<version>0.3</version>
+	<version>0.5.1</version>
 	<executions>
 		<execution>
 			<phase>compile</phase>
@@ -41,8 +41,14 @@ Plugin supports TypeScript at least version 1.6.2 and older.
 * `sourcemap` - add TS-files and JS.MAP-files to targetDirectory, *default* value is `false`
 
 ## Installing plugin
-`mvn install:install-file -Dfile=typescript-maven-plugin-0.3.jar`
+`mvn install:install-file -Dfile=typescript-maven-plugin-0.5.1.jar`
 
 or build and install from sources:
 
 `mvn install`
+
+## Additional information
+
+* Plugin has been tested on Windows (7, 10) and Linux (Ubuntu 15.04) platforms. Linux compatibility is available since __0.5.1__.
+* Plugin is compatible with both major versions of TypeScript: it has been tested with TS 1.6.2 (and older) and TS 2.1.4.
+* Plugin supports only some subset of available [compiler options](https://www.typescriptlang.org/docs/handbook/compiler-options.html) but the most important subset. See [Usage example](#usage-example) section.
